@@ -2,3 +2,4 @@
 /node_modules
 .vscode
 bdo-mp.json
+cdk.out
