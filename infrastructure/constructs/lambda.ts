@@ -11,7 +11,6 @@ import { Construct } from 'constructs';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 
 export class LambdaConstruct extends Construct {
-  public readonly testFunction: NodejsFunction;
   public readonly updatePrices: NodejsFunction;
 
   constructor(scope: Construct, id: string, props: any) {
@@ -23,19 +22,19 @@ export class LambdaConstruct extends Construct {
     // const { APP_REGION, AZURE_SPEECH_KEY, AZURE_SPEECH_REGION } =
     //   this.node.tryGetContext(BRANCH);
 
-    this.testFunction = new NodejsFunction(this, 'testFunction', {
-      memorySize: 128,
-      timeout: cdk.Duration.seconds(5),
-      runtime: lambda.Runtime.NODEJS_16_X,
-      handler: 'test',
-      entry: path.join(__dirname, `/../../lambda/test.ts`),
-      bundling: {
-        minify: false,
-      },
-      // environment: {
-      //   GOOGLE_SPREADSHEET: GOOGLE_SPREADSHEET!,
-      // },
-    });
+    // this.testFunction = new NodejsFunction(this, 'testFunction', {
+    //   memorySize: 128,
+    //   timeout: cdk.Duration.seconds(5),
+    //   runtime: lambda.Runtime.NODEJS_16_X,
+    //   handler: 'test',
+    //   entry: path.join(__dirname, `/../../lambda/test.ts`),
+    //   bundling: {
+    //     minify: false,
+    //   },
+    //   // environment: {
+    //   //   GOOGLE_SPREADSHEET: GOOGLE_SPREADSHEET!,
+    //   // },
+    // });
 
     this.updatePrices = new NodejsFunction(this, 'updatePrices', {
       memorySize: 128,
