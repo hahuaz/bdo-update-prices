@@ -1,4 +1,6 @@
 import * as cdk from 'aws-cdk-lib';
+import { aws_events, aws_events_targets } from 'aws-cdk-lib';
+
 import { Construct } from 'constructs';
 
 // import { ApiConstruct } from './constructs/api';
@@ -15,9 +17,14 @@ export class BdoUpdate extends cdk.Stack {
     // CUSTOM CONSTRUCTS
 
     // lamba, depends on storage
-    const { testFunction } = new LambdaConstruct(this, `lambda`, {
+    const { updatePrices } = new LambdaConstruct(this, `lambda`, {
       APP_REGION,
     });
+
+    const eventRule = new aws_events.Rule(this, 'scheduleRule', {
+      schedule: aws_events.Schedule.cron({ minute: '0' }),
+    });
+    eventRule.addTarget(new aws_events_targets.LambdaFunction(updatePrices));
 
     // CFN OUTPUTS
     // new cdk.CfnOutput(this, 'siteBucketDistDomain', {
