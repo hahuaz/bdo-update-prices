@@ -15,9 +15,8 @@ export class BdoUpdate extends cdk.Stack {
     const { APP_REGION } = this.node.tryGetContext(BRANCH);
 
     // CUSTOM CONSTRUCTS
-
     // lamba, depends on storage
-    const { updatePrices } = new LambdaConstruct(this, `lambda`, {
+    const { updatePrices, scrapeItems } = new LambdaConstruct(this, `lambda`, {
       APP_REGION,
     });
 
