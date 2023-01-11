@@ -2,7 +2,6 @@ const { COOKIE_REQUEST_TOKEN, COOKIE_TRADE_SESSION, BDOY_REQUEST_TOKEN } =
   process.env;
 
 export async function main() {
-  console.log(COOKIE_REQUEST_TOKEN);
   const data = await fetch(
     'https://trade.tr.playblackdesert.com/Home/GetWorldMarketList',
     {
