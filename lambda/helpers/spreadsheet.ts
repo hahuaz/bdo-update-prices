@@ -1,5 +1,3 @@
-// const { GoogleSpreadsheet } = require('');
-
 import * as spreadsheet from 'google-spreadsheet';
 const { GoogleSpreadsheet } = spreadsheet;
 

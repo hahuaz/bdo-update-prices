@@ -12,6 +12,7 @@ import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 
 export class LambdaConstruct extends Construct {
   public readonly updatePrices: NodejsFunction;
+  public readonly scrapeItems: NodejsFunction;
 
   constructor(scope: Construct, id: string, props: any) {
     super(scope, id);
@@ -36,12 +37,28 @@ export class LambdaConstruct extends Construct {
     //   // },
     // });
 
+    this.scrapeItems = new NodejsFunction(this, 'scrapeItems', {
+      memorySize: 128,
+      timeout: cdk.Duration.minutes(15),
+      runtime: lambda.Runtime.NODEJS_18_X,
+      handler: 'main',
+      entry: path.join(__dirname, `/../../lambda/scrape-items.ts`),
+      bundling: {
+        minify: false,
+      },
+      environment: {
+        COOKIE_REQUEST_TOKEN: process.env.COOKIE_REQUEST_TOKEN!,
+        COOKIE_TRADE_SESSION: process.env.COOKIE_TRADE_SESSION!,
+        BDOY_REQUEST_TOKEN: process.env.BDOY_REQUEST_TOKEN!,
+      },
+    });
+
     this.updatePrices = new NodejsFunction(this, 'updatePrices', {
       memorySize: 128,
       timeout: cdk.Duration.minutes(15),
-      runtime: lambda.Runtime.NODEJS_16_X,
+      runtime: lambda.Runtime.NODEJS_18_X,
       handler: 'main',
-      entry: path.join(__dirname, `/../../lambda/updatePrices.ts`),
+      entry: path.join(__dirname, `/../../lambda/update-prices.ts`),
       bundling: {
         minify: false,
       },
