@@ -2,12 +2,10 @@
 
 # About Project
 
-- BDO's cooking system is massive. Which recipe gives you more money or what's the money for per-hour is always dynaminc in the game because of market place's auction system. To prevent manual calculation everytime which is overwhelming obviously, I created this project.
-- This project is for personel usage. No intention to harm game mechanic.
+- BDO's cooking system is massive. Which recipe gives you more money or what's the money per-hour is always dynamic in the game because of market place's auction system. To prevent manual calculation everytime, which is obviously overwhelming, I created this project.
+- Note that this is for personal use and is not intended to harm the game mechanics..
 
-# Usage
+# Before Usage
 
-- You need the provide your own api keys for google services in .env file.
-- How the sheet template should be is shown at example sheet.
-- You need the configure your own sheet's details. e.g. spreadsheet id and sheet id.
-- After you completing above steps, you can use the script app.
+- You need the provide your own envrionment variables. Required envrionment variables can be found in [.env.example](.env.example).
+- How the sheet template should be structured is shown [example.xlsx](example.xlsx). You can provide your own item IDs.

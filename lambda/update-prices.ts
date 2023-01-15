@@ -1,14 +1,6 @@
 import { getSheet } from './helpers/spreadsheet';
 import { getItems } from './helpers/itemPrice';
 
-function delayPromise(duration: any) {
-  return new Promise<void>(function (resolve, reject) {
-    setTimeout(function () {
-      resolve();
-    }, duration);
-  });
-}
-
 export async function main() {
   // sheet should be sorted in ascending order by id
   const sheet = await getSheet();
