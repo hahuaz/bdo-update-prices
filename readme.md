@@ -3,7 +3,7 @@
 ## About Project
 
 - BDO's cooking system is massive. Which recipe gives you more money or what's the money per-hour is always dynamic in the game because of market place's auction system. To prevent manual calculation everytime, which is obviously overwhelming, I created this project.
-- Note that this is for personal use and is not intended to harm the game mechanics..
+- This is for personal use only and is not intended to harm the game mechanics or violate any terms of service. If somehow actions found harmfull by BDO staff, Cloud compute will rescue you from potential IP ban.
 
 ## Before Usage
 
