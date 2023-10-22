@@ -1,5 +1,5 @@
-import { getSheet } from './helpers/spreadsheet';
-import { getItems } from './helpers/itemPrice';
+import { getSheet } from "./helpers/spreadsheet";
+import { getItems } from "./helpers/itemPrice";
 
 export async function main() {
   // sheet should be sorted in ascending order by id
@@ -7,11 +7,12 @@ export async function main() {
   // get prices from bdo
   const rows = await sheet.getRows();
   const itemIDs = <any>[];
-  rows.forEach((row: any) => itemIDs.push(row['item id']));
-  const commaSeperatedItemIDs = itemIDs.join(',');
+  rows.forEach((row: any) => itemIDs.push(row["item id"]));
+  const commaSeperatedItemIDs = itemIDs.join(",");
+  console.log("commaSeperatedItemIDs", commaSeperatedItemIDs);
   const itemsInfo = await getItems(commaSeperatedItemIDs);
-  const matrixItemsInfo = itemsInfo.split('|').map((item: any) => {
-    return item.split('-');
+  const matrixItemsInfo = itemsInfo.split("|").map((item: any) => {
+    return item.split("-");
   });
   // return console.log(matrixItemsInfo.length);
 
@@ -25,14 +26,17 @@ export async function main() {
   });
   for (let i = 0; i <= rowCount; i++) {
     console.log(i, matrixItemsInfo?.[i]?.[2]);
-    // in sheet, index based column2 is price, column3 is in stock
+    // in sheet, index based column2 is price, column3 is in stock, column4 is shouldUpdate
     // in sheet, index based row0 is headers. use n + 1 to access actual row
     if (!matrixItemsInfo?.[i]?.[2]) break;
+    // if shouldUpdate is 0, skip
+    if (sheet.getCell(i + 1, 4).value === 0) continue;
+
     sheet.getCell(i + 1, 2).value = matrixItemsInfo[i][2];
     sheet.getCell(i + 1, 3).value = matrixItemsInfo[i][1];
   }
   // sheet.getCell(1, 3).value = 'myname';
   await sheet.saveUpdatedCells();
   // console.log(sheet.getCell(1, 3).value);
-  console.log('changes are saved');
+  console.log("changes are saved");
 }
