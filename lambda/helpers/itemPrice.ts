@@ -1,15 +1,18 @@
-import axios from 'axios';
+import axios from "axios";
 
+/**
+ * @param {string} ids - comma seperated string of item ids max 10
+ *  */
 export async function getItems(ids: any) {
   const item = await axios({
-    url: 'https://trade.tr.playblackdesert.com/Trademarket/GetWorldMarketSearchList',
-    method: 'POST',
+    url: "https://trade.tr.playblackdesert.com/Trademarket/GetWorldMarketSearchList",
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
-      'User-Agent': 'BlackDesert',
+      "Content-Type": "application/json",
+      "User-Agent": "BlackDesert",
     },
     data: {
-      searchResult: ids /* ids should be string by comma seperated */,
+      searchResult: ids,
     },
   });
 
