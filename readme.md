@@ -1,16 +1,18 @@
-# Marketplace Api For Massive MMORPG
+# Marketplace API for Massive MMORPG  
 
-## About Project
+## About the Project  
 
-- BDO's cooking system is massive. Which recipe gives you more money or what's the money per-hour is always dynamic in the game because of market place's auction system. To prevent manual calculation everytime, which is obviously overwhelming, I created this project.
-- This is for personal use only and is not intended to harm the game mechanics or violate any terms of service. If somehow actions found harmfull by BDO staff, Cloud compute will rescue you from potential IP ban.
+BDO's cooking system is complex, and calculating which recipe generates the most profit or the best money-per-hour can be overwhelming due to the dynamic marketplace auction system. To eliminate the need for manual calculations, I created this project.  
 
-## Before Usage
+This tool is for **personal use only** and is **not intended to interfere with game mechanics or violate any terms of service**. If BDO staff deems any actions harmful, cloud computing will help to prevent the risk of an IP ban.  
 
-- You need the provide your own envrionment variables. Required envrionment variables can be found in [.env.example](.env.example).
-- How the sheet template should be structured is shown [example.xlsx](example.xlsx). You can provide your own item IDs.
+## Setup & Requirements  
+
+- You must provide your own environment variables. The required variables are listed in the [.env.example](.env.example) file.  
+- The correct spreadsheet template structure is demonstrated in [example.xlsx](example.xlsx). You can customize it by adding your own item IDs.  
 
 ## Scrape json response
+Following is an example of the json response from the marketplace API.
 
 ```json
 {
