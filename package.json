@@ -9,9 +9,8 @@
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk",
-    "cdk-watch": "cdk watch PROD-bdo-update --hotswap --logs --profile hahuaz-root",
-    "cdk-deploy": "cdk deploy --profile hahuaz-root",
-    "cdk-boot": "cdk bootstrap aws://725077116981/us-west-2 --profile hahuaz-root --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess"
+    "cdk-watch": "cdk watch prod-bdo-update --hotswap --logs --profile ${MY_AWS_PROFILE}",
+    "cdk-deploy": "cdk deploy --profile ${MY_AWS_PROFILE}"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.93",
