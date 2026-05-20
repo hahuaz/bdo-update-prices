@@ -2,12 +2,16 @@ import { getSheet } from "./helpers/spreadsheet";
 import { getItems } from "./helpers/itemPrice";
 
 export async function main() {
-  // sheet should be sorted in ascending order by id
   const sheet = await getSheet();
   // get prices from bdo
   const rows = await sheet.getRows();
   const itemIDs = <any>[];
-  rows.forEach((row: any) => itemIDs.push(row["item id"]));
+  rows.forEach((row) => {
+    const val = row.get("item id");
+    if (val) {
+      itemIDs.push(String(val).trim());
+    }
+  });
 
   // Use the function to chunk the itemIDs array into groups of 10
   const chunkedItemIDs = chunkArray(itemIDs, 10);
@@ -29,8 +33,17 @@ export async function main() {
   const matrixItemsInfo = itemsInfo.split("|").map((item: any) => {
     return item.split("-");
   });
-  console.log("matrixItemsInfo", matrixItemsInfo, matrixItemsInfo.length);
-  // return console.log(matrixItemsInfo.length);
+  
+  // Create a map of item ID to its API data for fast and order-independent lookup
+  const itemPriceMap = new Map<string, { price: string; stock: string }>();
+  for (const item of matrixItemsInfo) {
+    if (item.length >= 3) {
+      const id = item[0];
+      const stock = item[1];
+      const price = item[2];
+      itemPriceMap.set(id, { price, stock });
+    }
+  }
 
   // update cells
   const rowCount = sheet.rowCount;
@@ -40,34 +53,40 @@ export async function main() {
     startColumnIndex: 0,
     endColumnIndex: 5,
   });
-  for (let i = 0; i <= matrixItemsInfo.length - 1; i++) {
-    console.log(
-      "for row",
-      i + 2,
-      matrixItemsInfo?.[i]?.[2],
-      matrixItemsInfo?.[i]
-    );
-    // in sheet, index based column2 is price, column3 is in stock, column4 is shouldUpdate
-    // in sheet, index based row0 is headers. use n + 1 to access actual row
+
+  for (let i = 0; i < rows.length; i++) {
+    const row = rows[i];
+    const itemId = String(row.get("item id") || "").trim();
+    const rowIndex = i + 1; // row 0 is header
 
     // if shouldUpdate is 0, skip
-    if (sheet.getCell(i + 1, 4).value === 0) continue;
+    if (sheet.getCell(rowIndex, 4).value === 0) continue;
 
-    sheet.getCell(i + 1, 2).value = matrixItemsInfo[i][2];
-    sheet.getCell(i + 1, 3).value = matrixItemsInfo[i][1];
+    if (!itemId) continue;
+
+    const apiItem = itemPriceMap.get(itemId);
+    if (apiItem) {
+      console.log(
+        `Updating row ${rowIndex + 1} (Item ID: ${itemId}) -> Price: ${apiItem.price}, Stock: ${apiItem.stock}`
+      );
+      sheet.getCell(rowIndex, 2).value = apiItem.price;
+      sheet.getCell(rowIndex, 3).value = apiItem.stock;
+    } else {
+      console.log(`No API data found for row ${rowIndex + 1} (Item ID: ${itemId})`);
+    }
   }
-  // sheet.getCell(1, 3).value = 'myname';
+
   await sheet.saveUpdatedCells();
-  // console.log(sheet.getCell(1, 3).value);
   console.log("changes are saved");
 }
 
-// Function to chunk an array
+// Function to chunk an array without mutating the original
 function chunkArray(myArray: string[], chunk_size: number): string[][] {
-  var results = [];
+  const results = [];
+  const arrayCopy = [...myArray];
 
-  while (myArray.length) {
-    results.push(myArray.splice(0, chunk_size));
+  while (arrayCopy.length) {
+    results.push(arrayCopy.splice(0, chunk_size));
   }
 
   return results;
